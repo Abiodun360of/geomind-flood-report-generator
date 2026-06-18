@@ -13,22 +13,53 @@ st.set_page_config(
 )
 
 NIGERIA_LOCATIONS = {
-    "lokoja": {"lat": 7.8, "lon": 6.7, "state": "Kogi State"},
+    # North West
     "kano": {"lat": 12.0022, "lon": 8.5920, "state": "Kano State"},
+    "kaduna": {"lat": 10.5264, "lon": 7.4382, "state": "Kaduna State"},
+    "sokoto": {"lat": 13.0059, "lon": 5.2476, "state": "Sokoto State"},
+    "zaria": {"lat": 11.0851, "lon": 7.7199, "state": "Kaduna State"},
+    "kebbi": {"lat": 12.4539, "lon": 4.1975, "state": "Kebbi State"},
+    "zamfara": {"lat": 12.1704, "lon": 6.6624, "state": "Zamfara State"},
+    # North East
+    "maiduguri": {"lat": 11.8333, "lon": 13.1500, "state": "Borno State"},
+    "yola": {"lat": 9.2035, "lon": 12.4954, "state": "Adamawa State"},
+    "gombe": {"lat": 10.2897, "lon": 11.1673, "state": "Gombe State"},
+    "bauchi": {"lat": 10.3158, "lon": 9.8442, "state": "Bauchi State"},
+    "damaturu": {"lat": 11.7469, "lon": 11.9606, "state": "Yobe State"},
+    # North Central
+    "abuja": {"lat": 9.0765, "lon": 7.3986, "state": "FCT Abuja"},
+    "lokoja": {"lat": 7.7965, "lon": 6.7356, "state": "Kogi State"},
+    "makurdi": {"lat": 7.7322, "lon": 8.5391, "state": "Benue State"},
+    "minna": {"lat": 9.6139, "lon": 6.5569, "state": "Niger State"},
+    "lafia": {"lat": 8.4940, "lon": 8.5219, "state": "Nasarawa State"},
+    "jos": {"lat": 9.8965, "lon": 8.8583, "state": "Plateau State"},
+    "ilorin": {"lat": 8.4966, "lon": 4.5426, "state": "Kwara State"},
+    # South West
     "lagos": {"lat": 6.5244, "lon": 3.3792, "state": "Lagos State"},
     "lagos island": {"lat": 6.4541, "lon": 3.3947, "state": "Lagos State"},
-    "abuja": {"lat": 9.0765, "lon": 7.3986, "state": "FCT Abuja"},
-    "niger delta": {"lat": 5.0, "lon": 6.0, "state": "Niger Delta"},
-    "benue": {"lat": 7.7199, "lon": 8.7893, "state": "Benue State"},
+    "ibadan": {"lat": 7.3775, "lon": 3.9470, "state": "Oyo State"},
+    "akure": {"lat": 7.2526, "lon": 5.1942, "state": "Ondo State"},
+    "abeokuta": {"lat": 7.1475, "lon": 3.3619, "state": "Ogun State"},
+    "ado ekiti": {"lat": 7.6190, "lon": 5.2210, "state": "Ekiti State"},
+    "osogbo": {"lat": 7.7827, "lon": 4.5418, "state": "Osun State"},
+    # South South
     "port harcourt": {"lat": 4.8156, "lon": 7.0498, "state": "Rivers State"},
-    "maiduguri": {"lat": 11.8333, "lon": 13.15, "state": "Borno State"},
-    "sokoto": {"lat": 13.0059, "lon": 5.2476, "state": "Sokoto State"},
-    "ibadan": {"lat": 7.3775, "lon": 3.947, "state": "Oyo State"},
+    "warri": {"lat": 5.5167, "lon": 5.7500, "state": "Delta State"},
+    "niger delta": {"lat": 4.9000, "lon": 6.0000, "state": "Niger Delta Region"},
+    "benin city": {"lat": 6.3350, "lon": 5.6037, "state": "Edo State"},
+    "uyo": {"lat": 5.0377, "lon": 7.9128, "state": "Akwa Ibom State"},
+    "yenagoa": {"lat": 4.9247, "lon": 6.2642, "state": "Bayelsa State"},
+    "calabar": {"lat": 4.9517, "lon": 8.3220, "state": "Cross River State"},
+    "asaba": {"lat": 6.1833, "lon": 6.7333, "state": "Delta State"},
+    # South East
     "enugu": {"lat": 6.4584, "lon": 7.5464, "state": "Enugu State"},
-    "kaduna": {"lat": 10.5264, "lon": 7.4382, "state": "Kaduna State"},
-    "warri": {"lat": 5.5167, "lon": 5.75, "state": "Delta State"},
-    "yola": {"lat": 9.2035, "lon": 12.4954, "state": "Adamawa State"},
-    "makurdi": {"lat": 7.7322, "lon": 8.5391, "state": "Benue State"},
+    "onitsha": {"lat": 6.1667, "lon": 6.7833, "state": "Anambra State"},
+    "owerri": {"lat": 5.4836, "lon": 7.0333, "state": "Imo State"},
+    "abakaliki": {"lat": 6.3249, "lon": 8.1137, "state": "Ebonyi State"},
+    "umuahia": {"lat": 5.5320, "lon": 7.4863, "state": "Abia State"},
+    # Rivers / Deltas
+    "benue river": {"lat": 7.7322, "lon": 8.5391, "state": "Benue State"},
+    "niger river": {"lat": 6.5833, "lon": 6.7500, "state": "Niger Delta"},
 }
 
 RISK_COLORS = {
@@ -129,7 +160,20 @@ def extract_risk_level(report_text):
 
 def build_map(location, report_text):
     loc_key = location.lower().split(",")[0].strip()
-    coords = NIGERIA_LOCATIONS.get(loc_key, {"lat": 9.0820, "lon": 8.6753, "state": location})
+    
+    # Try exact match first
+    coords = NIGERIA_LOCATIONS.get(loc_key, None)
+    
+    # Try partial match if no exact match
+    if not coords:
+        for key, val in NIGERIA_LOCATIONS.items():
+            if key in loc_key or loc_key in key:
+                coords = val
+                break
+    
+    # Default to Nigeria center if not found
+    if not coords:
+        coords = {"lat": 9.0820, "lon": 8.6753, "state": location}
     risk = extract_risk_level(report_text)
     color_hex = RISK_COLORS.get(risk, "#9c27b0")
     marker_color_map = {
