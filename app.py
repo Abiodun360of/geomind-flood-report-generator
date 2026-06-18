@@ -171,76 +171,108 @@ def build_map(location, report_text):
 # ---- CSS ----
 st.markdown("""
 <style>
-/* Force dark text everywhere */
-html, body, [class*="css"], .main, .block-container,
-.stApp, .stMarkdown, .stMarkdown p, .stMarkdown li,
+/* ===== FORCE LIGHT MODE ENTIRE APP ===== */
+html, body, .stApp, .main, .block-container {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+}
+
+/* All text elements */
+p, li, span, label, div, h1, h2, h3, h4, h5, h6,
+.stMarkdown, .stMarkdown p, .stMarkdown li,
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
-.stMarkdown h4, .stMarkdown h5, .stMarkdown span,
-p, li, span, label, div, h1, h2, h3, h4, h5,
-.stButton p, .stTextInput label, .stTextArea label,
+[data-testid="stMarkdownContainer"],
 [data-testid="stMarkdownContainer"] p,
 [data-testid="stMarkdownContainer"] li,
-[data-testid="stMarkdownContainer"] span {
+[data-testid="stMarkdownContainer"] span,
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3 {
     color: #1a1a1a !important;
+    background-color: transparent !important;
 }
 
-/* Tabs */
-.stTabs [data-baseweb="tab-panel"] {
-    background: #ffffff !important;
-    color: #1a1a1a !important;
-    padding: 1rem;
-    border-radius: 8px;
-}
-.stTabs [data-baseweb="tab-panel"] p,
-.stTabs [data-baseweb="tab-panel"] li,
-.stTabs [data-baseweb="tab-panel"] span,
-.stTabs [data-baseweb="tab-panel"] div {
-    color: #1a1a1a !important;
-}
-
-/* Tab buttons */
-.stTabs [data-baseweb="tab"] {
-    color: #333333 !important;
-    background: #f0f4ff !important;
-}
-.stTabs [aria-selected="true"] {
-    color: #1a73e8 !important;
-    border-bottom: 3px solid #1a73e8 !important;
-}
-
-/* Quick select buttons */
-.stButton button {
-    color: #1a1a1a !important;
-    background: #f0f4ff !important;
-    border: 1px solid #1a73e8 !important;
-    border-radius: 8px !important;
-}
-.stButton button:hover {
-    background: #1a73e8 !important;
-    color: white !important;
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #f8fafc !important;
 }
 
 /* Input fields */
 .stTextInput input, .stTextArea textarea {
+    background-color: #ffffff !important;
     color: #1a1a1a !important;
-    background: white !important;
+    border: 1px solid #cccccc !important;
+}
+.stTextInput label, .stTextArea label {
+    color: #1a1a1a !important;
 }
 
-/* Info boxes */
-.stInfo, .stAlert {
+/* Buttons */
+.stButton button {
+    background-color: #f0f4ff !important;
+    color: #1a1a1a !important;
+    border: 1px solid #1a73e8 !important;
+    border-radius: 8px !important;
+}
+.stButton button:hover {
+    background-color: #1a73e8 !important;
+    color: #ffffff !important;
+}
+.stButton button[kind="primary"] {
+    background-color: #1a73e8 !important;
+    color: #ffffff !important;
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] {
+    background-color: #f8fafc !important;
+}
+.stTabs [data-baseweb="tab"] {
+    color: #444444 !important;
+    background-color: #f0f4ff !important;
+    margin-right: 4px !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+.stTabs [aria-selected="true"] {
+    color: #1a73e8 !important;
+    background-color: #ffffff !important;
+    border-bottom: 3px solid #1a73e8 !important;
+}
+.stTabs [data-baseweb="tab-panel"] {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+    padding: 1rem !important;
+}
+.stTabs [data-baseweb="tab-panel"] * {
     color: #1a1a1a !important;
 }
+
+/* Info / alert boxes */
+.stAlert, .stInfo, [data-testid="stAlert"] {
+    background-color: #e8f0fe !important;
+    color: #1a1a1a !important;
+}
+.stAlert p, .stInfo p {
+    color: #1a1a1a !important;
+}
+
+/* Progress bar */
+.stProgress > div > div {
+    background-color: #1a73e8 !important;
+}
+
+/* Divider */
+hr { border-color: #e0e0e0 !important; }
 
 /* Chain steps */
 .chain-step {
-    background: #f0f4ff !important;
+    background-color: #f0f4ff !important;
     border-left: 4px solid #1a73e8 !important;
     padding: 10px 14px !important;
     border-radius: 0 8px 8px 0 !important;
     margin: 6px 0 !important;
-    color: #1a1a1a !important;
 }
-.chain-step span, .chain-step b {
+.chain-step b, .chain-step span {
     color: #1a1a1a !important;
 }
 
@@ -253,9 +285,6 @@ p, li, span, label, div, h1, h2, h3, h4, h5,
     font-size: 1.1rem !important;
     margin: 8px 0 !important;
 }
-
-/* Divider */
-hr { border-color: #e0e0e0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
