@@ -198,6 +198,24 @@ def build_map(location, report_text):
 st.markdown("""
 <style>
     .main { background: #f8fafc; }
+    .stMarkdown, .stMarkdown p, .stMarkdown li, 
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
+    p, li, span, label, div {
+        color: #1a1a1a !important;
+    }
+    .stTabs [data-baseweb="tab-panel"] {
+        color: #1a1a1a !important;
+        background: white !important;
+    }
+    .chain-step {
+        background: #f0f4ff !important;
+        border-left: 4px solid #1a73e8 !important;
+        padding: 8px 14px !important;
+        border-radius: 0 8px 8px 0 !important;
+        margin: 6px 0 !important;
+        font-size: 13px !important;
+        color: #1a1a1a !important;
+    }
     .risk-badge {
         display: inline-block; padding: 6px 18px;
         border-radius: 20px; font-weight: bold;
