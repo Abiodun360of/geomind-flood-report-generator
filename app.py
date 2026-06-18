@@ -171,32 +171,91 @@ def build_map(location, report_text):
 # ---- CSS ----
 st.markdown("""
 <style>
-body, .main, .block-container, p, li, span, label,
-h1, h2, h3, h4, h5, div, .stMarkdown {
+/* Force dark text everywhere */
+html, body, [class*="css"], .main, .block-container,
+.stApp, .stMarkdown, .stMarkdown p, .stMarkdown li,
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
+.stMarkdown h4, .stMarkdown h5, .stMarkdown span,
+p, li, span, label, div, h1, h2, h3, h4, h5,
+.stButton p, .stTextInput label, .stTextArea label,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] span {
     color: #1a1a1a !important;
 }
+
+/* Tabs */
 .stTabs [data-baseweb="tab-panel"] {
-    background: white !important;
+    background: #ffffff !important;
     color: #1a1a1a !important;
     padding: 1rem;
     border-radius: 8px;
 }
+.stTabs [data-baseweb="tab-panel"] p,
+.stTabs [data-baseweb="tab-panel"] li,
+.stTabs [data-baseweb="tab-panel"] span,
+.stTabs [data-baseweb="tab-panel"] div {
+    color: #1a1a1a !important;
+}
+
+/* Tab buttons */
+.stTabs [data-baseweb="tab"] {
+    color: #333333 !important;
+    background: #f0f4ff !important;
+}
+.stTabs [aria-selected="true"] {
+    color: #1a73e8 !important;
+    border-bottom: 3px solid #1a73e8 !important;
+}
+
+/* Quick select buttons */
+.stButton button {
+    color: #1a1a1a !important;
+    background: #f0f4ff !important;
+    border: 1px solid #1a73e8 !important;
+    border-radius: 8px !important;
+}
+.stButton button:hover {
+    background: #1a73e8 !important;
+    color: white !important;
+}
+
+/* Input fields */
+.stTextInput input, .stTextArea textarea {
+    color: #1a1a1a !important;
+    background: white !important;
+}
+
+/* Info boxes */
+.stInfo, .stAlert {
+    color: #1a1a1a !important;
+}
+
+/* Chain steps */
 .chain-step {
-    background: #f0f4ff;
-    border-left: 4px solid #1a73e8;
-    padding: 10px 14px;
-    border-radius: 0 8px 8px 0;
-    margin: 6px 0;
-    color: #1a1a1a;
+    background: #f0f4ff !important;
+    border-left: 4px solid #1a73e8 !important;
+    padding: 10px 14px !important;
+    border-radius: 0 8px 8px 0 !important;
+    margin: 6px 0 !important;
+    color: #1a1a1a !important;
 }
+.chain-step span, .chain-step b {
+    color: #1a1a1a !important;
+}
+
+/* Risk badge */
 .risk-badge {
-    display: inline-block;
-    padding: 6px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin: 8px 0;
+    display: inline-block !important;
+    padding: 6px 20px !important;
+    border-radius: 20px !important;
+    font-weight: bold !important;
+    font-size: 1.1rem !important;
+    margin: 8px 0 !important;
 }
+
+/* Divider */
+hr { border-color: #e0e0e0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
