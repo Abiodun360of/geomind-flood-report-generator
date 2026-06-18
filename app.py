@@ -375,7 +375,7 @@ if st.session_state.report_result:
     with tab2:
         st.markdown(f"**📍 {result['location']} — {risk_level} Flood Risk Zone**")
         map_obj = build_map(result["location"], result["report"])
-        st_folium(map_obj, width=None, height=500)
+        st_folium(map_obj, width=700, height=500)
 
     with tab3:
         st.markdown("### 🔍 Step 1: Extracted Geographic Facts")
